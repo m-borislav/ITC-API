@@ -2,66 +2,65 @@ package com.itc.controller;
 
 import com.itc.domain.Course;
 import com.itc.repos.CourseDAO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
-@Controller
+@RestController
 public class CourseController {
+    private final CourseDAO courseDAO;
+
     @Autowired
-    private CourseDAO courseDAO;
-
-    @GetMapping
-    public String main(Map<String, Object> model) {
-        Set<Course> courses = courseDAO.findAll();
-
-        model.put("courses", courses.toArray());
-
-        return "course";
+    public CourseController(CourseDAO courseDAO) {
+        this.courseDAO = courseDAO;
     }
 
-    @PostMapping
-    public String add(@RequestParam(required = false) String name,
-                      @RequestParam(required = false) String cost,
-                      @RequestParam(required = false) String rating,
-                      @RequestParam(required = false) String duration,
-                      @RequestParam(required = false) String videoLink,
-                      Map<String, Object> model) {
-        Course course = new Course();
-        course.setName(name);
-        course.setCost(cost);
-        course.setCreationDate(LocalDateTime.now());
-        course.setRating(Integer.parseInt(rating));
-        course.setDuration(duration);
-        course.setVideoLink(videoLink);
+    @GetMapping("/courses")
+    public Set<Course> allCourses() {
+        return courseDAO.findAll();
+    }
 
+    @GetMapping("/courses/{id}")
+    public Course findCourse(@PathVariable Long id) {
+        return courseDAO.findById(id).get();
+    }
+
+    @PostMapping(value = "/courses",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         courseDAO.save(course);
-        Set<Course> courses = courseDAO.findAll();
-
-        model.put("courses", courses.toArray());
-
-        return "course";
+        return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Set<Course> courses;
+    @PatchMapping(value = "/courses/{id}",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Course> updateCourse(@PathVariable Long id,
+                                               @RequestBody Course course,
+                                               HttpServletResponse response) {
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/findCourse/" + course.getId()).toUriString());
+        Course courseFromDB = courseDAO.findById(id).get();
+        BeanUtils.copyProperties(course, courseFromDB);
+        courseDAO.save(courseFromDB);
+        return new ResponseEntity<>(courseFromDB, HttpStatus.OK);
+    }
 
-        if (filter != null && !filter.isEmpty()) {
-            courses = Collections.singleton(courseDAO.findByName(filter));
-        } else {
-            courses = courseDAO.findAll();
-        }
+    @DeleteMapping(value = "/courses/{id}",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Course> deleteCourse(@PathVariable Long id, HttpServletResponse response) {
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/findCourse/" + id).toUriString());
+        courseDAO.deleteById(id);
 
-        model.put("courses", courses.toArray());
-
-        return "course";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
