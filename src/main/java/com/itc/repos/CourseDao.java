@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface CourseDAO extends CrudRepository<Course, Long> {
+public interface CourseDao extends CrudRepository<Course, Long> {
     Course findByName(String name);
      Set<Course> findAll();
      Optional<Course> findById(Long id);

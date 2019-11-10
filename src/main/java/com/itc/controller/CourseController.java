@@ -1,7 +1,7 @@
 package com.itc.controller;
 
 import com.itc.domain.Course;
-import com.itc.repos.CourseDAO;
+import com.itc.repos.CourseDao;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +14,10 @@ import java.util.Set;
 
 @RestController
 public class CourseController {
-    private final CourseDAO courseDAO;
+    private final CourseDao courseDAO;
 
     @Autowired
-    public CourseController(CourseDAO courseDAO) {
+    public CourseController(CourseDao courseDAO) {
         this.courseDAO = courseDAO;
     }
 
