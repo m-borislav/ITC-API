@@ -3,6 +3,7 @@ package com.itc.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -25,6 +26,9 @@ public class Course {
     @Column(name = "courseVideoLink",  nullable = true, length = 300)
     private String videoLink;
 
+    @ManyToMany(targetEntity = User.class, mappedBy = "courses", cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
+    private Set<User> students;
 
     public Long getId() {
         return id;
@@ -88,6 +92,14 @@ public class Course {
 
     public void setVideoLink(String videoLink) {
         this.videoLink = videoLink;
+    }
+
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
     }
 
     @Override

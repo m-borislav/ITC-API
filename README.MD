@@ -10,8 +10,8 @@ Readme for init
 
 РАБОТА с БД
 Все запросы посылаются на адрес /courses Виды запросов:
-Get: /courses - получить все курсы
-Get: /courses/{id} - получить курс по ID
-Post: /courses - добавить новый курс (курс в виде джейсона кладется в тело запроса)
-Patch: /courses/{id} - обновить курс по ID (новый курс в виде джейсона кладется в тело запроса)
-Delete: /courses/{id} - удалить курс по ID 
+Get: /api/admin/courses - получить все курсы
+Get: /api/admin/courses/{id} - получить курс по ID
+Post: /api/admin/courses - добавить новый курс (курс в виде джейсона кладется в тело запроса)
+Patch: /api/admin/courses/{id} - обновить курс по ID (новый курс в виде джейсона кладется в тело запроса)
+Delete: /api/admin/courses/{id} - удалить курс по ID 
