@@ -26,12 +26,12 @@ public class CourseController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/api/admin/courses")
+    @GetMapping("/api/courses")
     public Set<Course> allCourses() {
         return courseDao.findAll();
     }
 
-    @GetMapping("/api/admin/courses/{id}")
+    @GetMapping("/api/courses/{id}")
     public Course findCourse(@PathVariable Long id) {
         return courseDao.findById(id).get();
     }
