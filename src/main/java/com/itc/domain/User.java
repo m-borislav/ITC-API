@@ -8,7 +8,8 @@ import java.util.Set;
 @Table(name = "usr")
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private String login;
     private String password;
@@ -18,20 +19,22 @@ public class User {
     private String locale;
     private LocalDateTime lastVisit;
 
+    private boolean isActive;
+    private boolean isAuthentificated;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(targetEntity = Course.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-    mappedBy = "students")
+    @ManyToMany(targetEntity = Course.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Course> courses;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -105,6 +108,22 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isAuthentificated() {
+        return isAuthentificated;
+    }
+
+    public void setAuthentificated(boolean authentificated) {
+        isAuthentificated = authentificated;
     }
 
     public Set<Course> getCourses() {
