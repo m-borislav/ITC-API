@@ -102,6 +102,14 @@ public class Course {
         this.students = students;
     }
 
+    public void addStudent(User userFromDb) {
+        students.add(userFromDb);
+    }
+
+    public void removeStudent(User userFromDb) {
+        students.remove(userFromDb);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

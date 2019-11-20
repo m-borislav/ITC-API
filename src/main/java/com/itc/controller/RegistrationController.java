@@ -2,7 +2,7 @@ package com.itc.controller;
 
 import com.itc.domain.Role;
 import com.itc.domain.User;
-import com.itc.repos.UserDao;
+import com.itc.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

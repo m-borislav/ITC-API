@@ -1,4 +1,4 @@
-package com.itc.repos;
+package com.itc.dao;
 
 import com.itc.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
