@@ -21,6 +21,7 @@ public class User {
 
     private boolean isActive;
     private boolean isAuthentificated;
+    private boolean isEnrolledOnCourse;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -132,5 +133,9 @@ public class User {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public boolean isEnrolledOnCourse(){
+        return isEnrolledOnCourse;
     }
 }

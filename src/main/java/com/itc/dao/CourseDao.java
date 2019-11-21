@@ -10,6 +10,6 @@ import java.util.Set;
 @Repository
 public interface CourseDao extends CrudRepository<Course, Long> {
     Course findByName(String name);
-     Set<Course> findAll();
-     Optional<Course> findById(Long id);
+    Set<Course> findAll();
+    Optional<Course> findById(Long id);
 }

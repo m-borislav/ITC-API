@@ -1,7 +1,4 @@
-package com.itc.controller;
-
-import com.itc.domain.Course;
-import com.itc.domain.Question;
+package com.itc.domain;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,10 +10,10 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "lessonName", nullable = false, length = 100)
-    private String lessonName;
-    @Column(name = "youtubeLink", nullable = false, unique = true, length = 100)
-    private String youtubeLink;
+    @Column(name = "name", nullable = false, length = 100)
+    private String name;
+    @Column(name = "content", nullable = false, unique = true, length = 100)
+    private String content;
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Question> questions;
     @ManyToOne(targetEntity = Course.class)
@@ -33,20 +30,20 @@ public class Lesson {
         this.id = id;
     }
 
-    public String getLessonName() {
-        return lessonName;
+    public String getName() {
+        return name;
     }
 
-    public void setLessonName(String lessonName) {
-        this.lessonName = lessonName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getYoutubeLink() {
-        return youtubeLink;
+    public String getContent() {
+        return content;
     }
 
-    public void setYoutubeLink(String youtubeLink) {
-        this.youtubeLink = youtubeLink;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Course getCourse() {
@@ -64,4 +61,6 @@ public class Lesson {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
+
+
 }

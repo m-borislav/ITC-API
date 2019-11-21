@@ -2,6 +2,8 @@ package com.itc.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,6 +31,17 @@ public class Course {
     @ManyToMany(targetEntity = User.class, mappedBy = "courses", cascade = CascadeType.ALL,
     fetch = FetchType.LAZY)
     private Set<User> students;
+
+    @OneToMany(mappedBy = "Course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private HashSet<Lesson> lesson;
+
+    public HashSet<Lesson> getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(HashSet<Lesson> lesson) {
+        this.lesson = lesson;
+    }
 
     public Long getId() {
         return id;
@@ -108,6 +121,13 @@ public class Course {
 
     public void removeStudent(User userFromDb) {
         students.remove(userFromDb);
+    }
+    public Lesson showLessons(Lesson lessonFromDb){
+        Iterator<Lesson> lessonIterator = lessons.iterator();
+        while (lessonIterator.hasNext()){
+            return lessonFromDb;
+        }
+        return lessonFromDb;
     }
 
     @Override
